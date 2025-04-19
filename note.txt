@@ -140,3 +140,64 @@ source ~/.bashrc  # hoặc ~/.zshrc nếu dùng zsh
   318  git commit -m "f1"
   319  git push -u origin main
   320  history
+
+#####################################
+#####################################
+BUILD SERVICE
+
+🎯 Mục tiêu:
+
+    Có 1 file shell script, ví dụ: /home/ubuntu/myscript.sh
+
+    Muốn chạy nó dưới nền như service, luôn chạy từ lúc boot máy
+
+✅ Bước 1: Đảm bảo script có quyền chạy
+
+chmod +x /home/ubuntu/myscript.sh
+
+✅ Bước 2: Tạo file service cho systemd
+
+Tạo file mới:
+
+sudo nano /etc/systemd/system/myscript.service
+
+Dán nội dung ví dụ sau:
+
+[Unit]
+Description=My Custom Script Service
+After=network.target
+
+[Service]
+ExecStart=/home/ubuntu/myscript.sh
+Restart=always
+RestartSec=5
+User=ubuntu
+WorkingDirectory=/home/ubuntu
+StandardOutput=append:/var/log/myscript.log
+StandardError=append:/var/log/myscript.err.log
+
+[Install]
+WantedBy=multi-user.target
+
+    ⚠️ Nhớ đổi User=ubuntu thành user bạn đang dùng nếu khác.
+
+✅ Bước 3: Reload systemd, enable và start service
+
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable myscript.service
+sudo systemctl start myscript.service
+
+✅ Bước 4: Kiểm tra trạng thái
+
+sudo systemctl status myscript.service
+
+Xem log nếu cần:
+
+journalctl -u myscript.service -f
+
+💡 Tips:
+
+    Nếu script cần chạy trong virtualenv hay dùng Docker, bạn có thể gọi các lệnh đó trong ExecStart hoặc gọi một script wrapper.
+
+    Nếu script có sleep / loop, nhớ có Restart=always để service không dừng.

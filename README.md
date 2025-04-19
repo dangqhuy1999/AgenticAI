@@ -35,7 +35,7 @@ uv_update_lock() {
   source .venv/bin/activate
   echo "🔄 Updating requirements.txt and uv.lock ..."
   uv pip freeze > requirements.txt
-  uv pip compile
+  uv pip compile requirements.txt --output-file uv.lock
   echo "✅ Updated uv.lock and requirements.txt"
 }
 

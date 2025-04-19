@@ -2,7 +2,12 @@
 
 # Environment with uv
 
-```
+```bash
+
+# Global install (xài mọi project)
+
+`curl -Ls https://astral.sh/uv/install.sh | sh`
+
 mkpy() {
   proj="$1"
   mkdir -p "$proj" && cd "$proj" || exit

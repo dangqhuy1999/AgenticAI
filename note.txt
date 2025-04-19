@@ -1,0 +1,113 @@
+##########
+
+# Cách 1 — Global install (xài mọi project)
+
+`curl -Ls https://astral.sh/uv/install.sh | sh`
+
+Xong test:
+
+`uv --version`
+
+→ Sau đó vào folder project:
+
+```
+uv venv .venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
+```
+
+## Cài thư viện
+
+`uv pip install requests pandas`
+
+#Ghi vào requirements.txt
+
+`uv pip freeze > requirements.txt`
+
+# Update package
+
+`uv pip install --upgrade package-name`
+
+
+
+
+######################
+Nếu ban đầu dự án chưa có uv.lock, thì cần có requirements.txt để uv biết phải lock những gì.
+✅ Cách tạo uv.lock từ requirements.txt:
+
+    Em tạo file requirements.txt như bình thường:
+
+requests
+pandas
+openai
+
+    Rồi chạy lệnh:
+
+uv pip compile
+
+📦 Nó sẽ đọc requirements.txt và tạo ra file uv.lock với toàn bộ dependency tree và phiên bản cụ thể, y như poetry.lock, package-lock.json,...
+💡 Sau đó:
+
+    Khi dev thêm/thay lib → update requirements.txt
+
+    Rồi chạy lại:
+
+    uv pip compile
+
+    Là uv.lock được cập nhật lại theo requirements.txt.
+
+📦 Khi deploy hoặc clone ở máy khác:
+
+Chỉ cần:
+
+uv venv .venv
+source .venv/bin/activate
+uv pip install --no-deps --frozen
+
+    ✅ Không cần requirements.txt nữa, chỉ cần uv.lock để đảm bảo đúng phiên bản!
+
+################
+
+
+
+Kiểm tra xem có requirements.txt chưa?
+
+`uv pip compile sẽ fail nếu không có requirements.txt.`
+
+    Em cần file requirements.txt ở cùng thư mục với nơi em chạy lệnh đó.
+
+
+Nếu vẫn lỗi, thử thêm --output-file
+
+`uv pip compile --output-file=uv.lock`
+
+
+####
+    (Tùy chọn) Generate uv.lock:
+
+uv pip compile requirements.txt --generate-uv-lock
+
+
+
+##################
+
+
+
+Thì em dùng shell function tự động hóa như sau:
+✅ Bước 1: Thêm function này vào .bashrc hoặc .zshrc
+
+mkpy() {
+  proj="$1"
+  mkdir -p "$proj" && cd "$proj" || exit
+  uv venv .venv
+  source .venv/bin/activate
+  touch main.py requirements.txt
+  echo "print('Hello from $proj')" > main.py
+  echo "✅ Project $proj created and ready with uv"
+}
+
+    Rồi reload shell:
+
+source ~/.bashrc  # hoặc ~/.zshrc nếu dùng zsh
+
+

@@ -22,8 +22,7 @@ mkpy() {
   echo "✅ Project $proj created with uv, .venv, main.py, requirements.txt and uv.lock"
 }
 
-@ update new package
-
+# update new package
 uv_update_lock() {
   if [ ! -f .venv/bin/activate ]; then
     echo "❌ .venv not found. Run inside your Python project with uv venv"

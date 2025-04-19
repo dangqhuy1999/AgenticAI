@@ -53,9 +53,11 @@ uv_sync_from_lock() {
 
   source .venv/bin/activate
   echo "🔄 Cài đúng thư viện từ uv.lock ..."
-  uv pip install --no-deps --frozen
+  uv pip sync uv.lock
   echo "✅ Đã sync môi trường Python từ uv.lock"
 }
+
+
 
 
 git clone https://github.com/huydxdev/uv-python-template myproj

@@ -15,12 +15,15 @@ mkpy() {
   mkdir -p "$proj" && cd "$proj" || exit
   uv venv .venv
   source .venv/bin/activate
-  echo "import requests\nprint('Hello from $proj')" > main.py
+  uv pip install requests
+  echo "import requests" > main.py
   echo "requests" > requirements.txt
   uv pip install -r requirements.txt
-  uv pip compile
+  uv pip compile requirements.txt --output-file uv.lock
+
   echo "✅ Project $proj created with uv, .venv, main.py, requirements.txt and uv.lock"
 }
+
 
 # update new package
 uv_update_lock() {

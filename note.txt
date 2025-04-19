@@ -111,3 +111,27 @@ mkpy() {
 source ~/.bashrc  # hoặc ~/.zshrc nếu dùng zsh
 
 
+####################
+
+### GIT CONFIG 
+
+  301  git init 
+  302  git git config --global user.name "XXX"
+  303  git  config --global user.name "XXX"
+  304  git config --global user.email "XXX@gXXX"
+  305  git git remote add origin "git@github.com:dangqhuy1999/AgenticAI.git"
+  306  git checkout -b main
+  307  git pull origin main
+  308  ls ~/.ssh
+  309  ssh-keygen -t ed25519 -C "XXX@XXX"
+  310  ls .ssh
+  311  ls -la
+  312  ls ~/.ssh
+  313  cat ~/.ssh/id_ed25519.pub
+  314  ssh -T git@github.com
+  315  git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519"
+  316  git pull origin main
+  317  git add .
+  318  git commit -m "f1"
+  319  git push -u origin main
+  320  history
